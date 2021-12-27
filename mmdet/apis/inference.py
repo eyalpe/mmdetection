@@ -13,6 +13,8 @@ from mmdet.datasets import replace_ImageToTensor
 from mmdet.datasets.pipelines import Compose
 from mmdet.models import build_detector
 
+from tools.yair.FeatureExtractor import FeatureExtractor
+import matplotlib.pyplot as plt
 
 def init_detector(config, checkpoint=None, device='cuda:0', cfg_options=None):
     """Initialize a detector from config file.
@@ -144,8 +146,12 @@ def inference_detector(model, imgs):
 
     # forward the model
     with torch.no_grad():
-        results = model(return_loss=False, rescale=True, **data)
+        model = FeatureExtractor(model, layers=["backbone.conv1"])
+        results, features = model(return_loss=False, rescale=True, **data)
 
+#    print({name: output.shape for name, output in features.items()})
+
+    plt.imshow(features['backbone.conv1'][0,0,...].cpu().numpy().astype(np.uint8))
     if not is_batch:
         return results[0]
     else:

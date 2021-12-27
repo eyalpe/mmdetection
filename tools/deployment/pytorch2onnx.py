@@ -291,8 +291,7 @@ def parse_args():
     args = parser.parse_args()
     return args
 
-
-if __name__ == '__main__':
+def main():
     args = parse_args()
     warnings.warn('Arguments like `--mean`, `--std`, `--dataset` would be \
         parsed directly from config file and are deprecated and \
@@ -343,3 +342,7 @@ if __name__ == '__main__':
         do_simplify=args.simplify,
         dynamic_export=args.dynamic_export,
         skip_postprocess=args.skip_postprocess)
+
+
+if __name__ == '__main__':
+    main()

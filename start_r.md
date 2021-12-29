@@ -1,7 +1,7 @@
 # MMDetection Hackathon
 ## getting started tutorial
 
-__NOTE: This instructions are written to be used with CUDA-10.2 and Ubuntu 18.04__
+__NOTE: This instructions are written to be used with CUDA-10.2, libcudnn7 and Ubuntu 18.04__
 
 ### Prerequisites:
 * Sign-in (and sign-up if required) to github
@@ -14,8 +14,10 @@ git clone git@github.com:<user>/mmdetection.git
 ```
 sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
 sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/ /"
+sudo add-apt-repository "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /"
 sudo apt-get update
 sudo apt-get install cuda-10-2
+sudo apt-get install libcudnn7=7.6.5.32-1+cuda10.2
 ```
 * Install python, python-dev, virtualenv
 ```

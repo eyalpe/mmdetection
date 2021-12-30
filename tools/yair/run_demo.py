@@ -1,83 +1,46 @@
 import numpy as np
 
 from mmdet.apis import init_detector, inference_detector
-from plot_utils import plot_tensor
 from tools.yair.save_output import SaveOutput
-
+from tools.yair.plot_utils import plot_tensor_ontop_image,plot_tensor
+from tools.yair.visualization_utils import get_layers_dict, plot_layer_filter, print_model
 import sys
-import torch
-from tools.yair.FeatureExtractor import FeatureExtractor
+
 sys.path.append('/home/yairshe/projectes/mmdetection')
 
-def get_layers_dict(model):
-    layers_dict = dict([*model.named_modules()])
-    return layers_dict
-
-def get_layers_names(model):
-    layers_dict = get_layers_dict(model)
-    return list(layers_dict.keys())
-
-def plot_layer_filter(model, layer_name):
-    layers_dict = get_layers_dict(model)
-    layer_parameters = [*layers_dict[layer_name].parameters()]
-    assert len(layer_parameters) == 1
-    plot_tensor(layer_parameters[0])
-
-
+# Define input:
 config_file = '/home/yairshe/projectes/mmdetection/configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
 # download the checkpoint from model zoo and put it in `checkpoints/`
 # url: https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth
 checkpoint_file = '/home/yairshe/projectes/mmdetection/checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
 device = 'cuda:0'
+input_image_path = '/home/yairshe/projectes/mmdetection/demo/demo.jpg'
+output_dir_path = '/home/yairshe/results/mmdetection_hackathon/demo'
+
 # init a detector
 model = init_detector(config_file, checkpoint_file, device=device)
+print_model(model, output_dir_path)
 
-layers_names = get_layers_names(model)
-layers_dict = get_layers_dict(model)
 #plot_layer_filter(model, 'backbone.conv1')
-plot_layer_filter(model, 'backbone.layer1.0.conv2')
+plot_layer_filter(model, 'backbone.layer1.0.conv2', show=True)
 
+
+layers_dict = get_layers_dict(model)
+layers_names = list(layers_dict.keys())
+
+# Add an hook for saving output:
 save_output = SaveOutput()
 layers_dict['rpn_head.rpn_cls'].register_forward_hook(save_output)
-#resnet_features = FeatureExtractor(model, layers=["backbone.conv1"])
-#dummy_input = torch.ones(10, 3, 224, 224)
-#features = resnet_features(dummy_input)
-
-
-with open('/home/yairshe/results/mmdetection_hackathon/onnx/model_print.txt', 'w') as f:
-    f.write(str(model))
-
-with open('/home/yairshe/results/mmdetection_hackathon/onnx/model_layers.txt', 'w') as f:
-    for name, param in model.named_parameters():
-        print(name)
-        print(param.shape)
-        f.write(f'{name}\n')
-        f.write(f'{str(param.shape)}\n\n')
-
-
 
 # inference the demo image
-results = inference_detector(model, '/home/yairshe/projectes/mmdetection/demo/demo.jpg')
+results = inference_detector(model, input_image_path)
+
+
 # plot_tensor(save_output.outputs)
 # plt.imshow(features['backbone.conv1'][0, 0, ...].cpu().numpy().astype(np.uint8))
-x = save_output.outputs[0][0, ...].cpu().numpy()
-x = np.transpose(x, (1,2,0))
-x = -x
-x[..., 0] = (x[..., 0] + x[..., 1] + x[..., 2 ]) / 3
-x[..., 1] = x[..., 2 ] = np.zeros(x[..., 0].shape)
-x = x.astype(np.uint8)
-# plt.imshow(x)
-# plt.show()
-from PIL import Image
-rpn_cls_output = Image.fromarray(x)
-l = rpn_cls_output.resize(image.size)
-image = Image.open('/home/yairshe/projectes/mmdetection/demo/demo.jpg')
-# l = l.convert('L')
-image_with_rpn_cls = Image.blend(image, l, 0.5)
-image_with_rpn_cls.show()
 
-l.paste(image)
-image.size
-Image.Image.paste(image, l)
 
-pass
+rpn_cls_fpn_4 = -save_output.outputs[2]
+plot_tensor_ontop_image(tensor=rpn_cls_fpn_4, image_path=input_image_path)
+
+

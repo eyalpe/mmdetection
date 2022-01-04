@@ -1,6 +1,6 @@
 import numpy as np
 
-from mmdet.apis import init_detector, inference_detector
+from mmdet.apis import init_detector, inference_detector, show_result_pyplot
 from tools.yair.save_output import SaveOutput
 from tools.yair.plot_utils import plot_tensor_ontop_image,plot_tensor
 from tools.yair.visualization_utils import get_layers_dict, plot_layer_filter, print_model
@@ -44,3 +44,5 @@ rpn_cls_fpn_4 = -save_output.outputs[2]
 plot_tensor_ontop_image(tensor=rpn_cls_fpn_4, image_path=input_image_path)
 
 
+# Let's plot the result
+show_result_pyplot(model, input_image_path, results, score_thr=0.3)

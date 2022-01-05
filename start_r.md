@@ -26,11 +26,15 @@ sudo apt install python3 python3-virtualenv virtualenv libpython3.6-dev
 
 Install mmdetection
 ---
-* create venv, load it, and install mmdetection in __editable__ mode:
+* Create venv, load it:
 ```
 virtualenv -p python3 venv_mmdet
 . venv_mmdet/bin/activate
 pip install torch torchvision torchaudio openmim
+```
+* Change working directory to your local copy of mmdetection (here it is: _`~/projects/mmdetection`_) and install mmdetection in __editable__ mode:
+```
+cd ~/projects/mmdetection
 mim install -e .
 ```
 Test:
@@ -51,5 +55,5 @@ mv faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth checkpoints/
 ```
 * Run an inference example:
 ```
-python -c "from mmdet.apis import init_detector, inference_detector;config_file = 'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py';checkpoint_file = 'checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth';device = 'cuda:0';model = init_detector(config_file, checkpoint_file, device=device);inference_detector(model, 'demo/demo.jpg');"
+python -c "from mmdet.apis import init_detector, inference_detector;config_file = 'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py';checkpoint_file = 'checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth';device = 'cuda:0';model = init_detector(config_file, checkpoint_file, device=device);res = inference_detector(model, 'demo/demo.jpg');print(res)"
 ```

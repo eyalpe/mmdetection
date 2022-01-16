@@ -145,13 +145,16 @@ def inference_detector(model, imgs):
             ), 'CPU inference with RoIPool is not supported currently.'
 
     # forward the model
+    # with torch.no_grad():
+    #     model = FeatureExtractor(model, layers=["backbone.conv1"])
+    #     results, features = model(return_loss=False, rescale=True, **data)
+
     with torch.no_grad():
-        model = FeatureExtractor(model, layers=["backbone.conv1"])
-        results, features = model(return_loss=False, rescale=True, **data)
+        results = model(return_loss=False, rescale=True, **data)
 
 #    print({name: output.shape for name, output in features.items()})
 
-    plt.imshow(features['backbone.conv1'][0,0,...].cpu().numpy().astype(np.uint8))
+    # plt.imshow(features['backbone.conv1'][0,0,...].cpu().numpy().astype(np.uint8))
     if not is_batch:
         return results[0]
     else:

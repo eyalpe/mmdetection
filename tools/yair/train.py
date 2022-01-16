@@ -45,7 +45,7 @@ cfg.seed = 0
 set_random_seed(0, deterministic=False)
 cfg.gpu_ids = range(1)
 
-cfg.dump('/home/yairshe/projectes/mmdetection/configs/yair/config_complete/faster_rcnn_r50_fpn_1x_coco_car_damage.py')
+# cfg.dump('/home/yairshe/projectes/mmdetection/configs/yair/config_complete/faster_rcnn_r50_fpn_1x_coco_car_damage.py')
 # Build dataset
 datasets = [build_dataset(cfg.data.train)]
 

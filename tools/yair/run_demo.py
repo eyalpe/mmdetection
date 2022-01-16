@@ -40,7 +40,7 @@ results = inference_detector(model, input_image_path)
 # plt.imshow(features['backbone.conv1'][0, 0, ...].cpu().numpy().astype(np.uint8))
 
 
-rpn_cls_fpn_4 = -save_output.outputs[2]
+rpn_cls_fpn_4 = -save_output.outputs[4]
 plot_tensor_ontop_image(tensor=rpn_cls_fpn_4, image_path=input_image_path)
 
 

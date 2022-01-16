@@ -9,7 +9,7 @@ def run_mmdet_test():
     sys.argv.append(config)
     sys.argv.append(checkpoint)
     sys.argv.append('--show-dir')
-    sys.argv.append('/home/yairshe/results/mmdetection_hackathon/coco_car_damage/results')
+    sys.argv.append('/home/yairshe/results/mmdetection_hackathon/coco_car_damage/results++')
     sys.argv.append('--out')
     sys.argv.append('/home/yairshe/results/mmdetection_hackathon/coco_car_damage/test.pkl')
 

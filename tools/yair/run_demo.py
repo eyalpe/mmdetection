@@ -9,16 +9,16 @@ import sys
 sys.path.append('/home/yairshe/projectes/mmdetection')
 
 # Define input:
-config_file = '/home/yairshe/projectes/mmdetection/configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
+config_file_path = '/home/yairshe/projectes/mmdetection/configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
 # download the checkpoint from model zoo and put it in `checkpoints/`
 # url: https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth
-checkpoint_file = '/home/yairshe/projectes/mmdetection/checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
+checkpoint_file_path = '/home/yairshe/projectes/mmdetection/checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
 device = 'cuda:0'
 input_image_path = '/home/yairshe/projectes/mmdetection/demo/demo.jpg'
-output_dir_path = '/home/yairshe/results/mmdetection_hackathon/demo'
+output_dir_path = '/home/yairshe/results/mmdetection_hackathon/print_model'
 
 # init a detector
-model = init_detector(config_file, checkpoint_file, device=device)
+model = init_detector(config_file_path, checkpoint_file_path, device=device)
 print_model(model, output_dir_path)
 
 #plot_layer_filter(model, 'backbone.conv1')

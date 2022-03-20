@@ -17,7 +17,6 @@ sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/
 sudo add-apt-repository "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /"
 sudo apt-get update
 sudo apt-get install cuda-10-2
-sudo apt-get install libcudnn7=7.6.5.32-1+cuda10.2
 ```
 * Install python, python-dev, virtualenv
 ```

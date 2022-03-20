@@ -39,9 +39,10 @@ mim install -e .
 ```
 Test:
 ---
-* Verifiy mmdetection installation:
+* Verifiy mmdetection and mmcv installation:
 ```
 python -c 'import mmdet; print(mmdet.__version__)'
+python -c 'import mmcv;import mmcv.ops;print(mmcv.__version__)'
 ```
 * Verifiy CUDA is used:
 ```

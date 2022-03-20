@@ -1,13 +1,16 @@
 from mmdet.apis import init_detector
 from tools.yair.visualization_utils import get_layers_dict, plot_layer_filter
+import tools.yair.hackathon.hackathon_utils as hku
 import os
 
 
 # Show filters before loading the trained net:
 device = 'cuda:0'
-config_file_path = '/home/yairshe/projectes/mmdetection/configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
-input_image_path = '/home/yairshe/projectes/mmdetection/demo/demo.jpg'
-output_dir_root_path = '/home/yairshe/results/mmdetection_hackathon/task_0_show_filters'
+MMDET_DIR = hku.get_mmdet_root()
+HOME_DIR = hku.get_user_home_dir()
+config_file_path = MMDET_DIR + '/configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
+input_image_path = MMDET_DIR + '/demo/demo.jpg'
+output_dir_root_path = HOME_DIR + '/results/mmdetection_hackathon/task_0_show_filters'
 
 model = init_detector(config_file_path, checkpoint=None, device=device)
 
@@ -30,7 +33,7 @@ for layer_name in layers_names[1:]:
 
 # Show filters after loading the trained net:
 
-checkpoint_file_path = '/home/yairshe/projectes/mmdetection/checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
+checkpoint_file_path = MMDET_DIR + '/checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
 model = init_detector(config_file_path, checkpoint=checkpoint_file_path, device=device)
 
 output_dir_path = os.path.join(output_dir_root_path, 'after_init')

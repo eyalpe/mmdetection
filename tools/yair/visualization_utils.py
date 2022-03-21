@@ -8,12 +8,14 @@ def get_layers_dict(model):
     return layers_dict
 
 
-def plot_layer_filter(model, layer_name, show=False, output_file_path=None):
+def plot_layer_filter(model, layer_name, show=False, output_file_path=None, plot_square=False):
     layers_dict = get_layers_dict(model)
     layer_parameters = [*layers_dict[layer_name].parameters()]
     try:
         if len(layer_parameters) >= 1 and layer_parameters[0].shape[2]>1:
-            plot_tensor(layer_parameters[0], show=show, title=f'{model._get_name()} - {layer_name}', output_file_path=output_file_path)
+            n_cols = max(1, int(layer_parameters[0].shape[0]**0.5)) if plot_square else 8
+            plot_tensor(layer_parameters[0], show=show, title=f'{model._get_name()} - {layer_name}',
+                        output_file_path=output_file_path, ncols=n_cols)
         # if output_dir_path is not None:
         #     output_dir_path = os.path.join(output_dir_path, 'filters_visualization')
     except:

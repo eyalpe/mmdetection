@@ -6,39 +6,40 @@ import mmcv
 from mmcv import Config, mkdir_or_exist
 from mmdet.apis import init_detector, inference_detector, show_result_pyplot
 import os
+import hackathon.hackathon_utils as hku
 
 
-cfg = Config.fromfile('/home/yairshe/projectes/mmdetection/configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py')
+cfg = Config.fromfile(hku.get_mmdet_root() + '/configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py')
 
 
 from mmdet.apis import set_random_seed
 
 # Modify dataset type and path
 cfg.dataset_type = 'Traffic'
-cfg.data_root = '/home/yairshe/data/traffic/'
+cfg.data_root = hku.get_user_home_dir() + '/data/traffic/'
 
 cfg.data.test.type = 'Traffic'
-cfg.data.test.data_root = '/home/yairshe/data/traffic/'
+cfg.data.test.data_root = hku.get_user_home_dir() + '/data/traffic/'
 cfg.data.test.ann_file = 'set_500_data.json'
 cfg.data.test.img_prefix = 'set_500'
 
 cfg.data.train.type = 'Traffic'
-cfg.data.train.data_root = '/home/yairshe/data/traffic/'
+cfg.data.train.data_root = hku.get_user_home_dir() + '/data/traffic/'
 cfg.data.train.ann_file = 'set_500_data.json'
 cfg.data.train.img_prefix = 'set_500'
 
 cfg.data.val.type = 'Traffic'
-cfg.data.val.data_root = '/home/yairshe/data/traffic/'
+cfg.data.val.data_root = hku.get_user_home_dir() + '/data/traffic/'
 cfg.data.val.ann_file = 'set_500_data.json'
 cfg.data.val.img_prefix = 'set_500'
 
 # modify num classes of the model in box head
 cfg.model.roi_head.bbox_head.num_classes = 12
 
-cfg.load_from = '/home/yairshe/projectes/mmdetection/checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
+cfg.load_from = hku.get_mmdet_root() + '/checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
 
 # Set up working dir to save files and logs.
-cfg.work_dir = '/home/yairshe/results/mmdetection_hackathon/traffic_1'
+cfg.work_dir = hku.get_user_home_dir() + '/results/mmdetection_hackathon/traffic_1'
 os.makedirs(cfg.work_dir, exist_ok=True)
 
 # Set seed thus the results are more reproducible

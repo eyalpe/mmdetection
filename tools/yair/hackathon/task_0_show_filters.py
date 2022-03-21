@@ -7,10 +7,10 @@ import os
 # Show filters before loading the trained net:
 device = 'cuda:0'
 MMDET_DIR = hku.get_mmdet_root()
-HOME_DIR = hku.get_user_home_dir()
+RESULTS_ROOT_DIR = MMDET_DIR + '/../../results/'
 config_file_path = MMDET_DIR + '/configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
 input_image_path = MMDET_DIR + '/demo/demo.jpg'
-output_dir_root_path = HOME_DIR + '/results/mmdetection_hackathon/task_0_show_filters'
+output_dir_root_path = RESULTS_ROOT_DIR + '/task_0_show_filters'
 
 model = init_detector(config_file_path, checkpoint=None, device=device)
 

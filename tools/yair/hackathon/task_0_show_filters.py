@@ -20,18 +20,16 @@ layers_names = list(layers_dict.keys())
 output_dir_path = os.path.join(output_dir_root_path, 'before_init')
 for layer_name in [l for l in layers_names if '.bn' not in l and 'downsample' not in l and l != '']:
     output_file_path = os.path.join(output_dir_path, f'{layer_name}.png')
-    plot_layer_filter(model, layer_name, show=False, output_file_path=output_file_path)
-
+    plot_layer_filter(model, layer_name, show=False, output_file_path=output_file_path, plot_square=True)
 
 # Show filters after loading the trained net:
-
 checkpoint_file_path = MMDET_DIR + '/checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
 model = init_detector(config_file_path, checkpoint=checkpoint_file_path, device=device)
 
 output_dir_path = os.path.join(output_dir_root_path, 'after_init')
 for layer_name in [l for l in layers_names if '.bn' not in l and 'downsample' not in l and l != '']:
     output_file_path = os.path.join(output_dir_path, f'{layer_name}.png')
-    plot_layer_filter(model, layer_name, show=False, output_file_path=output_file_path)
+    plot_layer_filter(model, layer_name, show=False, output_file_path=output_file_path, plot_square=True)
 
 
 

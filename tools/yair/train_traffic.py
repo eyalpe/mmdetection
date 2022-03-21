@@ -38,7 +38,8 @@ cfg.model.roi_head.bbox_head.num_classes = 12
 cfg.load_from = '/home/yairshe/projectes/mmdetection/checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
 
 # Set up working dir to save files and logs.
-cfg.work_dir = '/home/yairshe/results/mmdetection_hackathon/traffic'
+cfg.work_dir = '/home/yairshe/results/mmdetection_hackathon/traffic_1'
+os.makedirs(cfg.work_dir, exist_ok=True)
 
 # Set seed thus the results are more reproducible
 cfg.seed = 0

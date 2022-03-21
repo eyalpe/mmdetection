@@ -9,7 +9,7 @@ from sklearn.decomposition import PCA
 import copy
 
 # Based on stackoverflow #55594969
-def plot_tensor(tensor, channle_idx=0, allkernels=False, nrow=8, padding=1, show=False, output_file_path=None, title=None):
+def plot_tensor(tensor, channle_idx=0, allkernels=False, ncols=8, padding=1, show=False, output_file_path=None, title=None):
     tensor = tensor.cpu()
     if len(tensor.shape) != 4:
         print(f'len(tensor.shap) = {len(tensor.shape)} != 4')
@@ -23,9 +23,9 @@ def plot_tensor(tensor, channle_idx=0, allkernels=False, nrow=8, padding=1, show
     elif c == 2:
         tensor = tensor[:, channle_idx, :, :].unsqueeze(dim=1)
 
-    rows = np.min((tensor.shape[0] // nrow + 1, 64))
-    grid = utils.make_grid(tensor, nrow=nrow, normalize=True, padding=padding)
-    plt.figure(figsize=(nrow, rows))
+    cols = np.min((tensor.shape[0] // ncols + 1, 64))
+    grid = utils.make_grid(tensor, nrow=ncols, normalize=True, padding=padding)
+    plt.figure(figsize=(ncols, cols))
     plt.imshow(grid.detach().numpy().transpose((1, 2, 0)))
 
     if title is not None:

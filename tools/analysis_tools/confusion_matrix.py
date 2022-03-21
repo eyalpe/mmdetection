@@ -11,6 +11,7 @@ from mmcv.ops import nms
 from mmdet.core.evaluation.bbox_overlaps import bbox_overlaps
 from mmdet.datasets import build_dataset
 
+import math
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -204,10 +205,11 @@ def plot_confusion_matrix(confusion_matrix,
     # draw confution matrix value
     for i in range(num_classes):
         for j in range(num_classes):
+            value = int(confusion_matrix[i, j]) if not math.isnan(confusion_matrix[i, j]) else None
             ax.text(
                 j,
                 i,
-                '{}%'.format(int(confusion_matrix[i, j])),
+                '{}%'.format(value),
                 ha='center',
                 va='center',
                 color='w',

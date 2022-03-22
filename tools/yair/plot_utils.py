@@ -1,6 +1,7 @@
 import os
 
 import matplotlib.pyplot as plt
+import numpy as np
 import torch
 from pyforest import *
 from torchvision import utils
@@ -44,15 +45,18 @@ def rgb_2_red(tensor):
     return tensor
 
 from PIL import Image
-def plot_tensor_ontop_image(tensor, image_path, output_path=None):
+def plot_tensor_ontop_image(tensor, image_path, output_path=None, ontop_black=False, alpha=0.2):
     tensor = tensor[0, ...].cpu().numpy()
     tensor = np.transpose(tensor, (1, 2, 0))
     tensor = rgb_2_red(tensor)
     tensor = tensor.astype(np.uint8)
     rpn_cls_output = Image.fromarray(tensor)
     image = Image.open(image_path)
+    if ontop_black:
+        np_buf = np.zeros([image.height, image.width, 3])
+        image = Image.fromarray(np_buf.astype(np.uint8))
     l = rpn_cls_output.resize(image.size)
-    image_with_rpn_cls = Image.blend(image, l, 0.3)
+    image_with_rpn_cls = Image.blend(image, l, alpha)
     image_with_rpn_cls.show()
     if output_path is not None:
         image_with_rpn_cls.save(output_path)

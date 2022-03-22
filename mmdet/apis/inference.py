@@ -227,7 +227,8 @@ def show_result_pyplot(model,
                        score_thr=0.3,
                        title='result',
                        wait_time=0,
-                       palette=None):
+                       palette=None,
+                       patches_out_dir=None):
     """Visualize the detection results on the image.
 
     Args:
@@ -242,13 +243,25 @@ def show_result_pyplot(model,
     """
     if hasattr(model, 'module'):
         model = model.module
-    model.show_result(
-        img,
-        result,
-        score_thr=score_thr,
-        show=True,
-        wait_time=wait_time,
-        win_name=title,
-        bbox_color=palette,
-        text_color=(200, 200, 200),
-        mask_color=palette)
+    if patches_out_dir:
+        model.show_result(
+            img,
+            result,
+            score_thr=score_thr,
+            show=True,
+            wait_time=wait_time,
+            win_name=title,
+            bbox_color=palette,
+            text_color=(200, 200, 200),
+            mask_color=palette,
+            patches_out_dir=patches_out_dir)
+    else:
+        model.show_result(img,
+                          result,
+                          score_thr=score_thr,
+                          show=True,
+                          wait_time=wait_time,
+                          win_name=title,
+                          bbox_color=palette,
+                          text_color=(200, 200, 200),
+                          mask_color=palette)

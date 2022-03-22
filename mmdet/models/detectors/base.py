@@ -1,4 +1,5 @@
 # Copyright (c) OpenMMLab. All rights reserved.
+import os
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
 
@@ -280,7 +281,8 @@ class BaseDetector(BaseModule, metaclass=ABCMeta):
                     win_name='',
                     show=False,
                     wait_time=0,
-                    out_file=None):
+                    out_file=None,
+                    patches_out_dir=None):
         """Draw `result` over `img`.
 
         Args:
@@ -318,6 +320,8 @@ class BaseDetector(BaseModule, metaclass=ABCMeta):
         else:
             bbox_result, segm_result = result, None
         bboxes = np.vstack(bbox_result)
+        if patches_out_dir:
+            self.crop_patches_to_dir(img, bboxes, patches_out_dir)
         labels = [
             np.full(bbox.shape[0], i, dtype=np.int32)
             for i, bbox in enumerate(bbox_result)
@@ -354,6 +358,16 @@ class BaseDetector(BaseModule, metaclass=ABCMeta):
 
         if not (show or out_file):
             return img
+
+
+    def crop_patches_to_dir(self, img, bboxes, patches_out_dir):
+        img = mmcv.imread(img)
+        for i, bbox in enumerate(bboxes):
+            x1,y1,x2,y2,_score = [int(x) for x in bbox]
+            patch = img[y1:y2, x1:x2]
+            image_path = f'{patches_out_dir}/patch_{str(i).zfill(8)}.png'
+            mmcv.imwrite(patch, image_path)
+
 
     def onnx_export(self, img, img_metas):
         raise NotImplementedError(f'{self.__class__.__name__} does '

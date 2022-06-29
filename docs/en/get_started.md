@@ -1,5 +1,7 @@
 # Prerequisites
 
+In case you want to use a docker container, you can skip this section and go directly to the [docker section](#using-mmdetection-with-docker).
+
 In this section we demonstrate how to prepare an environment with PyTorch.
 
 MMDetection works on Linux, Windows and macOS. It requires Python 3.6+, CUDA 9.2+ and PyTorch 1.5+.
@@ -189,19 +191,22 @@ Within Jupyter, the exclamation mark `!` is used to call external executables an
 ### Using MMDetection with Docker
 
 We provide a [Dockerfile](https://github.com/open-mmlab/mmdetection/blob/master/docker/Dockerfile) to build an image. Ensure that your [docker version](https://docs.docker.com/engine/install/) >=19.03.
+and probably also [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#setting-up-nvidia-container-toolkit) for gpu enabled containers and applications.
 
+
+Build an image with mmdetection v2.24.1, mmcv-full 1.3.17, PyTorch 1.10.0 and CUDA 11.3
+
+If you prefer other versions, you may modify the Dockerfile, and possibly also the container tag (on the build command).
 ```shell
-# build an image with PyTorch 1.6, CUDA 10.1
-# If you prefer other versions, just modified the Dockerfile
-docker build -t mmdetection docker/
+docker build -t mmdetection:v2.24.1_pytorch-1.10.0_cuda-11.3 -t mmdetection:latest docker/
 ```
 
-Run it with
+Run it with gpu enabled and possibly mount your home directory to /host_data as in this example:
 
 ```shell
-docker run --gpus all --shm-size=8g -it -v {DATA_DIR}:/mmdetection/data mmdetection
+docker run --gpus all --shm-size=8g -it -v ${HOME}:/host_data mmdetection
 ```
-
+now you can go back to [Verify the installation](#verify-the-installation) section to verify your installation.
 ## Trouble shooting
 
 If you have some issues during the installation, please first view the [FAQ](faq.md) page.

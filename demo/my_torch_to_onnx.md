@@ -20,8 +20,8 @@ python tools/deployment/pytorch2onnx.py     configs/faster_rcnn/faster_rcnn_r50_
 
 3. Create an environment to run the test script:
 ```shell
-python3 -m venv onnx_mnist
-source onnx_mnist/bin/activate
+python3 -m venv onnx_env
+source onnx_env/bin/activate
 python3 -m pip install --upgrade pip
 pip install onnx onnxruntime opencv-python
 ```

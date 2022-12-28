@@ -16,8 +16,8 @@ COLORS =  [(254.0, 254.0, 254), (239.88888888888889, 211.66666666666669, 127),
 CLASS_COLOR = {name:color for name, color in zip(CLASSES, COLORS)}
 
 model='/host_data/models/tiny_yolov2/tinyyolov2-7.onnx'
-img_path='/host_data/code_projects/mmdetection/demo/dog.jpg'
-img_out_path='/host_data/code_projects/mmdetection/demo/dog_out.jpg'
+img_path='/host_data/models/tiny_yolov2/example/dog.jpg'
+img_out_path='/host_data/models/tiny_yolov2/example/dog_out.jpg'
 
 expected_model_input_shape = (1, 3, 416, 416)
 expected_model_dsize_h = expected_model_input_shape[2]
@@ -25,7 +25,7 @@ expected_model_dsize_w = expected_model_input_shape[3]
 expected_model_dsize = (expected_model_dsize_h, expected_model_dsize_w)
 
 iou_threshold = 0.3
-score_threshold = 0.5
+score_threshold = 0.4
 
 def preprocess(img_mat):
   data_blob = cv2.resize(img_mat, expected_model_dsize, cv2.INTER_CUBIC)
@@ -70,7 +70,8 @@ def iou(boxA, boxB):
 
 def non_maximal_suppression(thresholded_predictions, iou_threshold):
   nms_predictions = []
-
+  if thresholded_predictions == []:
+    return []
   # Add the best B-Box because it will never be deleted
   nms_predictions.append(thresholded_predictions[0])
 
@@ -97,7 +98,7 @@ def non_maximal_suppression(thresholded_predictions, iou_threshold):
   return nms_predictions
 
 
-# expoected grid.shape is (25,13,13)
+# expoected grid.shape is (125,13,13)
 def postprocess(grid):
   numClasses = len(CLASSES)
   thresholded_predictions = []
@@ -157,7 +158,6 @@ def rescale_results(yolo2_results, img_h, img_w):
     rescaled_bbox = [x1 * scale_w, y1 * scale_h, x2 * scale_w, y2 * scale_h]
     rescaled_results.append([rescaled_bbox, score, class_name])
   return rescaled_results
-
 
 
 if __name__ == '__main__':

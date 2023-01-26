@@ -61,7 +61,8 @@ def main():
   img_out_path=tiny_yolo2_helpers.img_out_path
 
   # Load model and verify its properties:
-  session = onnxruntime.InferenceSession(model, None)
+  session = onnxruntime.InferenceSession(model, providers = ['CUDAExecutionProvider', 'CPUExecutionProvider'])
+
   ort_input = { "name": session.get_inputs()[0].name, "shape": session.get_inputs()[0].shape }
   print(f'model input: {ort_input}')
   assert [x for x in ort_input["shape"][1:]] == [x for x in tiny_yolo2_helpers.expected_model_input_shape[1:]]
